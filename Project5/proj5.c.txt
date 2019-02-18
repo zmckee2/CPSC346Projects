@@ -1,0 +1,50 @@
+void main(int argc, char* argv)
+{
+ //check for proper arguments
+ //fork here
+ parBegin
+ {
+  child(time_child, time_child_non_cs);
+  parent(time_parent, time_parent_non_cs);
+ }
+ parEnd
+}
+
+void parent(time_crit_sect, time_non_crit_sect)
+{
+ for (int i = 0; i < 10; i++)
+  {
+   //protect this
+   cs('p', time_crit_sect);
+   non_cs(time_non_crit_sect); 
+  }
+
+void child(time_crit_sect, time_non_crit_sect)
+{
+ for (int i = 0; i < 10; i++)
+  {
+   //protect this
+   cs('c', time_crit_sect);
+   non_cs(time_non_crit_sect); 
+  }
+
+void cs(char process, int time_crit_sect)
+{
+ if (process == 'p')
+  {
+   printf("parent in critical sction\n");
+   sleep(time_crit_sect)
+   printf("parent leaving critical section\n");
+  }
+ else
+  {
+   printf("child in critical sction\n");
+   sleep(time_crit_sect)
+   printf("chile leaving critical section\n");
+  }
+}
+
+void non_crit_sect(int time_non_crit_sect)
+{
+ sleep(time_non_crit_sect);
+}
